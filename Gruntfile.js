@@ -59,7 +59,10 @@ module.exports = function (grunt) {
         tasks: ['copy']
       },
       src: {
-        files: ['bower_components/**/*.js', 'src/**/*.js'],
+        files: [
+          'bower_components/phaser/phaser.min.js',
+          'src/**/*.js'
+        ],
         tasks: ['jshint', 'concat']
       }
     },
