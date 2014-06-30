@@ -19,7 +19,6 @@ var fire = false;
 var jump = false;
 
 
-
 function preload() {
     //spritesheet for animations
     game.load.spritesheet('mario', 'assets/misc/mariospritesheet-small.png', 50, 50); // key, sourcefile, framesize x, framesize y
@@ -37,6 +36,7 @@ function preload() {
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 }
+
 
 function create() {
     if (!game.device.desktop) { game.input.onDown.add(gofull, this); } //go fullscreen on mobile devices
@@ -90,12 +90,12 @@ function create() {
     buttonleft.events.onInputDown.add(function () {left = true; });
     buttonleft.events.onInputUp.add(function () {left = false; });
 
-    buttonbottomleft = game.add.button(32, 536, 'buttondiagonal', null, this, 6, 4, 6, 4);
+    /*buttonbottomleft = game.add.button(32, 536, 'buttondiagonal', null, this, 6, 4, 6, 4);
     buttonbottomleft.fixedToCamera = true;
     buttonbottomleft.events.onInputOver.add(function () {left = true; duck = true; });
     buttonbottomleft.events.onInputOut.add(function () {left = false; duck = false; });
     buttonbottomleft.events.onInputDown.add(function () {left = true; duck = true; });
-    buttonbottomleft.events.onInputUp.add(function () {left = false; duck = false; });
+    buttonbottomleft.events.onInputUp.add(function () {left = false; duck = false; });*/
 
     buttonright = game.add.button(160, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
     buttonright.fixedToCamera = true;
@@ -104,12 +104,19 @@ function create() {
     buttonright.events.onInputDown.add(function () {right = true; });
     buttonright.events.onInputUp.add(function () {right = false; });
 
-    buttonbottomright = game.add.button(160, 536, 'buttondiagonal', null, this, 7, 5, 7, 5);
+    /*buttonbottomright = game.add.button(160, 536, 'buttondiagonal', null, this, 7, 5, 7, 5);
     buttonbottomright.fixedToCamera = true;
     buttonbottomright.events.onInputOver.add(function () {right = true; duck = true; });
     buttonbottomright.events.onInputOut.add(function () {right = false; duck = false; });
     buttonbottomright.events.onInputDown.add(function () {right = true; duck = true; });
-    buttonbottomright.events.onInputUp.add(function () {right = false; duck = false; });
+    buttonbottomright.events.onInputUp.add(function () {right = false; duck = false; });*/
+
+    buttonup = game.add.button(96, 408, 'buttonvertical', null, this, 0, 1, 0, 1);
+    buttonup.fixedToCamera = true;
+    buttonup.events.onInputOver.add(function () {jump = true; });
+    buttonup.events.onInputOut.add(function () {jump = false; });
+    buttonup.events.onInputDown.add(function () {jump = true; });
+    buttonup.events.onInputUp.add(function () {jump = false; });
 
     buttondown = game.add.button(96, 536, 'buttonvertical', null, this, 0, 1, 0, 1);
     buttondown.fixedToCamera = true;
@@ -118,6 +125,7 @@ function create() {
     buttondown.events.onInputDown.add(function () {duck = true; });
     buttondown.events.onInputUp.add(function () {duck = false; });
 }
+
 
 function update() {
     // define what should happen when a button is pressed
@@ -154,6 +162,7 @@ function update() {
     if (game.input.currentPointers === 0 && !game.input.activePointer.isMouse) { fire = false; right = false; left = false; duck = false; jump = false; } //this works around a "bug" where a button gets stuck in pressed state
 }
 
+
 function render() {
     game.debug.text('jump:' + jump + ' duck:' + duck + ' left:' + left + ' right:' + right + ' fire:' + fire, 20, 20);
 }
@@ -161,12 +170,16 @@ function render() {
 
 //some useful functions
 function gofull() { game.scale.startFullScreen(false); }
+
+
 function jump_now() {  //jump with small delay
     if (game.time.now > nextJump) {
         player.body.moveUp(600);
         nextJump = game.time.now + 900;
     }
 }
+
+
 function fire_now() {
     if (game.time.now > nextFire) {
         nextFire = game.time.now + fireRate;
